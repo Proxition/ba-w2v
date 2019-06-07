@@ -8,3 +8,7 @@ titleLinks*
 elastic/node_modules*
 data-preprocessing/node_modules*
 ba-w2v-v1/node_modules*
+output*
+fd_pw2*.txt
+dataForModel*.txt
+failed.txt
