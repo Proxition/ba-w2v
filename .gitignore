@@ -1,0 +1,10 @@
+*/node_modules/*
+w2v_m*
+p2v_m*
+pw2v_m*
+package-lock.json
+testCase.txt
+titleLinks*
+elastic/node_modules*
+data-preprocessing/node_modules*
+ba-w2v-v1/node_modules*
