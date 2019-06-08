@@ -1,0 +1,23 @@
+{
+  "name": "ba-w2v-v1",
+  "version": "0.0.1",
+  "description": "word2vec test project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start-watch": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Proxition/ba-w2v.git"
+  },
+  "author": "daniel baer",
+  "license": "MIT",
+  "homepage": "https://github.com/Proxition/ba-w2v.git#readme",
+  "dependencies": {
+    "readline": "^1.3.0",
+    "word2vec": "1.1.2",
+    "word2vector": "^2.1.0"
+  }
+}
