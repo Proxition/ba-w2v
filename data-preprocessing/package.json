@@ -1,0 +1,16 @@
+{
+  "name": "data-preprocessing",
+  "version": "1.0.0",
+  "description": "Data pre processeing for word2vec",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Daniel Baer",
+  "license": "MIT",
+  "dependencies": {
+    "compromise": "^11.13.2",
+    "natural": "^0.6.3",
+    "stopword": "^0.2.4"
+  }
+}
