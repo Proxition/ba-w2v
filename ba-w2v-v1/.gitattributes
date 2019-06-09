@@ -1,4 +1,0 @@
-*.bin filter=lfs diff=lfs merge=lfs -text
-*.zip filter=lfs diff=lfs merge=lfs -text
-dataForModel.zip filter=lfs diff=lfs merge=lfs -text
-fullTextContent.zip filter=lfs diff=lfs merge=lfs -text
