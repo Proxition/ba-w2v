@@ -1,5 +1,12 @@
 module.exports = {
     stepByStep: true,
+    takeStep: {
+        parse: false,
+        w2p: false,
+        w2vModelCreate: false,
+        w2vModelLoad: false,
+        elastic: false
+    },
     log: {
         filePath: './logs',
         fileName: 'log1.log',

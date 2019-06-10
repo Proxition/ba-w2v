@@ -96,8 +96,11 @@ const extendFile = (filePath,filename, extension) => {
 
 const init = async () => {
     if (config.stepByStep) {
-        await parsing(config.parsing, config.log);
-
+        config.takeStep.parse && await parsing(config.parsing, config.log);
+        config.takeStep.w2p && config.w2p.create.forEach(async options => await w2p(options, config.log));
+        config.takeStep.w2vModelCreate && config.w2vModel.create.forEach(async options => await w2vModelCreate(options, config.log));
+        config.takeStep.w2vModelLoad && config.w2vModel.load.forEach(async options => await w2vModelLoad(options, config.log));
+        config.takeStep.elastic && console.log('TODO');
     } else {
         await parsing(config.parsing, config.log);
         config.w2p.create.forEach(async options => await w2p(options, config.log));
