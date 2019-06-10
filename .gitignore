@@ -12,3 +12,5 @@ output*
 fd_pw2*.txt
 dataForModel*.txt
 failed.txt
+logs/*
+*.tsv

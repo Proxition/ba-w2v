@@ -1,0 +1,184 @@
+Trainingsdaten: train.sent
+
+Type: word2vector
+filename mask: w2v_m[x].txt
+
+Model #1:
+        size: 400,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 50,
+        alpha: 0.025 // skipgram
+
+Model #2: Model calc Time:  6548601 uxt
+        size: 300,      // dif to M#1
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 50,
+        alpha: 0.025
+
+Model #3: Model calc Time:  13014989 uxt
+        size: 300,      // dif to M#1
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,       // dif to M#1; M#2
+        alpha: 0.025
+
+Model #4: 
+        size: 400,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 50,
+        alpha: 0.05     // CBOW
+
+Model #5: 
+        size: 300,      // dif to M#1
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 50,
+        alpha: 0.05     // CBOW
+
+Model #6: 
+        size: 300,      // dif to M#1
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,      // dif to M#1; M#2
+        alpha: 0.05     // CBOW
+
+
+
+Type: Phrase2Vector as pre processor
+filename mask: p2v_m[x].txt
+
+Model #1: Calc Time:  129771 uxt
+        minCount: 5,
+        threshold: 100
+
+Model #2: Calc Time:  122830 uxt
+        minCount: 5,
+        threshold: 300
+
+Model #3: Calc Time:  326087 uxt
+        minCount: 5,
+        threshold: 50
+
+Type: Phrase2Vec -> Word2Vec
+filename mask: pw2v_m[x].txt
+
+p2v_m1:::
+Model #1: 
+        size: 300,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,
+        alpha: 0.05
+
+Model #2: ### ERROR
+        size: 300,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,
+        alpha: 0.25
+
+p2v_m2:::
+Model #3: ### ERROR
+        size: 300,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,
+        alpha: 0.05
+
+Model #4: 
+        size: 300,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,
+        alpha: 0.25
+
+p2v_m3:::
+Model #5: 15214028 uxt
+        size: 300,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,
+        alpha: 0.05
+
+Model #6: 53940 uxt
+        size: 300,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,
+        alpha: 0.25
+_______________________________________________________________________
+____________________ FINAL DATA _______________________________________
+_______________________________________________________________________
+Vocab size: 703570
+Words in train file: 323.234.165
+
+fd_pw2p_m
+Model #0: 980402,
+        minCount: 5,
+        threshold: 100
+
+Model #1 979194
+        minCount: 5,
+        threshold: 300
+
+fd_pw2v_m
+Model #0: 132112078,
+Vocab size: 703570
+Words in train file: 323234165
+        size: 300,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,
+        alpha: 0.05
+
+Model #1:
+Vocab size: 703570
+Words in train file: 323234165
+        size: 300,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,
+        alpha: 0.25
+
+Model #2: 100739837
+        size: 200,
+        window: 5,
+        hs: 1,
+        threads: 17,
+        iter: 100,
+        alpha: 0.05
+
+Model #3: 103657762
+        size: 200,
+        window: 5,
+        hs: 1,
+        threads: 20,
+        iter: 100,
+        alpha: 0.05,
+        binary: 1
+
+Model #4: 135764682
+        size: 300,
+        window: 5,
+        hs: 1,
+        threads: 20,
+        iter: 100,
+        alpha: 0.05,
+        binary: 1
