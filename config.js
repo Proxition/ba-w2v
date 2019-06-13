@@ -5,7 +5,8 @@ module.exports = {
         w2p: false,
         w2vModelCreate: false,
         w2vModelLoad: false,
-        elastic: false
+        elastic: false,
+        mode: true
     },
     log: {
         filePath: './logs',
@@ -78,9 +79,20 @@ module.exports = {
             },
             maxSearchResults: 10000,
             method: {
-
+                type: 'random',
+                filePath: './test',
+                fileName: 'randomSample.json',
+                amount: 50000,
+                max: 1031911
             }
         }
-    ]
+    ],
+    mode: {
+        type: 'random',
+        filePath: './test',
+        fileName: 'randomSample.json',
+        amount: 50000,
+        max: 1031911
+    }
 
 }

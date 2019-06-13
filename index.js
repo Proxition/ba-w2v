@@ -3,7 +3,9 @@ const fs = require('fs');
 
 const { w2vLoad } = require('./ba-w2v-v1/load');
 const w2vCreate = require('./ba-w2v-v1/create');
-const word2phrase = require('./ba-w2v-v1/word2phrase')
+const word2phrase = require('./ba-w2v-v1/word2phrase');
+
+const randomizer = require('./randomizer/index');
 
 const parser = require('./data-preprocessing/parseData');
 
@@ -101,6 +103,7 @@ const init = async () => {
         config.takeStep.w2vModelCreate && config.w2vModel.create.forEach(async options => await w2vModelCreate(options, config.log));
         config.takeStep.w2vModelLoad && config.w2vModel.load.forEach(async options => await w2vModelLoad(options, config.log));
         config.takeStep.elastic && console.log('TODO');
+        config.takeStep.mode && randomizer(config.mode);
     } else {
         await parsing(config.parsing, config.log);
         config.w2p.create.forEach(async options => await w2p(options, config.log));
