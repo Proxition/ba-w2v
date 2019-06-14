@@ -85,14 +85,28 @@ module.exports = {
                 amount: 50000,
                 max: 1031911
             }
+        },
+        {
+            elasticObj: {
+                index: '',
+                type: ''
+            },
+            maxSearchResults: 10000,
+            method: {
+                type: 'category',
+                category: '1920 births',
+                filePath: './test',
+                fileName: 'categories1.json',
+                clearedDataFilePath: './BiographyCorpus/Data/fullTextContent.tsv'
+            }
         }
     ],
-    mode: {
-        type: 'random',
+    mode2: {
+        type: 'category',
+        category: '1920 births',
         filePath: './test',
-        fileName: 'randomSample.json',
-        amount: 50000,
-        max: 1031911
+        fileName: 'categories1.json',
+        clearedDataFilePath: './BiographyCorpus/Data/fullTextContent.tsv'
     }
-
 }
+
