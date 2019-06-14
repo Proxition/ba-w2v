@@ -1,0 +1,15 @@
+{
+  "name": "weighting",
+  "version": "1.0.0",
+  "description": "weighting with w2v results",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Daniel Baer",
+  "license": "MIT",
+  "dependencies": {
+    "compromise": "^11.13.2",
+    "natural": "^0.6.3"
+  }
+}

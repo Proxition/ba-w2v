@@ -84,6 +84,12 @@ module.exports = {
                 fileName: 'randomSample.json',
                 amount: 50000,
                 max: 1031911
+            },
+            weighting: {
+                modelFileName: './ba-w2v-v1/data2/fd_pw2v_m3.bin',
+                output: true,
+                similarityAmount: 10,
+                amountToWeight: 20
             }
         },
         {
@@ -98,6 +104,12 @@ module.exports = {
                 filePath: './test',
                 fileName: 'categories1.json',
                 clearedDataFilePath: './BiographyCorpus/Data/fullTextContent.tsv'
+            },
+            weighting: {
+                modelFileName: './ba-w2v-v1/data2/fd_pw2v_m3.bin',
+                output: true,
+                similarityAmount: 10,
+                amountToWeight: 20
             }
         }
     ],
