@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "compromise": "^11.13.2",
-    "natural": "^0.6.3"
+    "natural": "^0.6.3",
+    "stopword": "^0.2.4"
   }
 }

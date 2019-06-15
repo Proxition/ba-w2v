@@ -4,9 +4,9 @@ module.exports = {
         parse: false,
         w2p: false,
         w2vModelCreate: false,
-        w2vModelLoad: false,
+        w2vModelLoad: true,
         elastic: false,
-        mode: true
+        mode: false
     },
     log: {
         filePath: './logs',
@@ -61,13 +61,7 @@ module.exports = {
                 modelFileName: './ba-w2v-v1/data2/fd_pw2v_m3.bin',
                 output: true,
                 similarityAmount: 10,
-                testOn: ['study', 'write', 'roger_staub', 'move'] // check if model is working
-            },
-            {
-                modelFileName: './test.bin',
-                output: true,
-                similarityAmount: 10,
-                testOn: ['study', 'write', 'roger_staub', 'move'] // check if model is working
+                testOn: ['mattison'] // check if model is working
             }
         ]
     },
