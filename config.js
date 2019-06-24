@@ -1,10 +1,10 @@
 module.exports = {
     stepByStep: true,
     takeStep: {
-        parse: false,
+        parse: true,
         w2p: false,
         w2vModelCreate: false,
-        w2vModelLoad: true,
+        w2vModelLoad: false,
         elastic: false,
         mode: false
     },
@@ -14,8 +14,8 @@ module.exports = {
         enable: true
     },
     parsing: {
-        dataFilePath: './test.txt',
-        parsedFilePath: './parsedText.txt',
+        dataFilePath: './BiographyCorpus/Data/fullTextContent.tsv',
+        parsedFilePath: './parsedText-stemmed.txt',
         continueParsingAtLine : 0,
         stemming: true,
         stemOnlyVerbs: false,
@@ -24,7 +24,7 @@ module.exports = {
         lineCount: 1031911,
         createClearedData: {
             enable: true,
-            filePath: './cleanTest.txt'
+            filePath: './cleanText.txt'
         },
         skipArticleList: [] // Articles that are making trouble and are not biographies
     },
@@ -43,8 +43,21 @@ module.exports = {
     w2vModel: {
         create: [
             {
-                trainingDataPath: './ba-w2v-v1/data/micro.txt',
-                modelFileName: 'test.bin',
+                trainingDataPath: './dataForModel.txt',
+                modelFileName: 'final-skip.bin',
+                modelOptions : {
+                    size: 500,
+                    window: 5,
+                    hs: 1,
+                    threads: 1,
+                    iter: 20,
+                    alpha: 0.25,
+                    binary: 1
+                }
+            },
+            {
+                trainingDataPath: './dataForModel.txt',
+                modelFileName: 'final-cbow.bin',
                 modelOptions : {
                     size: 500,
                     window: 5,
@@ -61,7 +74,7 @@ module.exports = {
                 modelFileName: './ba-w2v-v1/data2/fd_pw2v_m3.bin',
                 output: true,
                 similarityAmount: 10,
-                testOn: ['mattison'] // check if model is working
+                testOn: ['ridiculous', 'fathom'] // check if model is working
             }
         ]
     },
