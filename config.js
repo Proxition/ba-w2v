@@ -1,16 +1,15 @@
 module.exports = {
     stepByStep: true,
     takeStep: {
-        parse: true,
+        parse: false,
         w2p: false,
         w2vModelCreate: false,
         w2vModelLoad: false,
-        elastic: false,
-        mode: false
+        elastic: true,
     },
     log: {
         filePath: './logs',
-        fileName: 'log1.log',
+        fileName: 'log2.log',
         enable: true
     },
     parsing: {
@@ -79,26 +78,27 @@ module.exports = {
         ]
     },
     elastic: [
-        {
-            elasticObj: {
-                index: '',
-                type: ''
-            },
-            maxSearchResults: 10000,
-            method: {
-                type: 'random',
-                filePath: './test',
-                fileName: 'randomSample.json',
-                amount: 50000,
-                max: 1031911
-            },
-            weighting: {
-                modelFileName: './ba-w2v-v1/data2/fd_pw2v_m3.bin',
-                output: true,
-                similarityAmount: 10,
-                amountToWeight: 20
-            }
-        },
+        // {
+        //     elasticObj: {
+        //         index: '',
+        //         type: ''
+        //     },
+        //     maxSearchResults: 10000,
+        //     method: {
+        //         type: 'random',
+        //         filePath: './test',
+        //         fileName: 'randomSample.json',
+        //         amount: 50000,
+        //         max: 1031911
+        //     },
+        //     weighting: {
+        //         mode: 'verbCount',
+        //         modelFileName: './ba-w2v-v1/data2/fd_pw2v_m3.bin',
+        //         output: true,
+        //         similarityAmount: 10,
+        //         amountToWeight: 20
+        //     }
+        // },
         {
             elasticObj: {
                 index: '',
@@ -107,25 +107,19 @@ module.exports = {
             maxSearchResults: 10000,
             method: {
                 type: 'category',
-                category: '1920 births',
+                category: '10',
                 filePath: './test',
-                fileName: 'categories1.json',
+                fileName: 'categories2.json',
                 clearedDataFilePath: './BiographyCorpus/Data/fullTextContent.tsv'
             },
             weighting: {
-                modelFileName: './ba-w2v-v1/data2/fd_pw2v_m3.bin',
+                mode: 'byFrequency',
+                modelFileName: './final-cbow.bin',
                 output: true,
                 similarityAmount: 10,
                 amountToWeight: 20
             }
         }
-    ],
-    mode2: {
-        type: 'category',
-        category: '1920 births',
-        filePath: './test',
-        fileName: 'categories1.json',
-        clearedDataFilePath: './BiographyCorpus/Data/fullTextContent.tsv'
-    }
+    ]
 }
 

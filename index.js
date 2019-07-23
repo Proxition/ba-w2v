@@ -9,7 +9,7 @@ const randomizer = require('./randomizer/index');
 const getArticlesByCategory = require('./byCategories')
 
 const parser = require('./data-preprocessing/parseData');
-
+const elastic = require('./elastic/dataInit');
 
 
 const parsing = async (options, loggingOptions) => {
@@ -103,9 +103,12 @@ const init = async () => {
         config.takeStep.w2p && config.w2p.create.forEach(async options => await w2p(options, config.log));
         config.takeStep.w2vModelCreate && config.w2vModel.create.forEach(async options => await w2vModelCreate(options, config.log));
         config.takeStep.w2vModelLoad && config.w2vModel.load.forEach(async options => await w2vModelLoad(options, config.log));
-        config.takeStep.elastic && console.log('TODO');
-        //config.takeStep.mode && randomizer(config.mode);
-        config.takeStep.mode && getArticlesByCategory(config.mode2)
+        if(config.takeStep.elastic) {
+            config.elastic.forEach(elasticConfig => {
+                elastic({...config, current: elasticConfig})(getArticlesByCategory({...config.mode2, log: config.log}));
+            })
+        }
+        
     } else {
         await parsing(config.parsing, config.log);
         config.w2p.create.forEach(async options => await w2p(options, config.log));

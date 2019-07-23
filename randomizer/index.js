@@ -13,9 +13,9 @@ const getRandom = (amount, max) => {
 
 const makeRandom = (config) => {
     if (config.amount / config.max < 0.5) {
-        return { res: getRandom(config.amount, config.max) }
+        return { res: getRandom(config.amountToWeight, config.max) }
     } else {
-        return { res: getRandom(config.max - config.amount, config.max), inverted: true };
+        return { res: getRandom(config.max - config.amountToWeight, config.max), inverted: true };
     }
 }
 
@@ -40,12 +40,12 @@ const readFile = (filePath, fileName) => {
     return fs.readFileSync(filePath + '/' + fileName)
 }
 
-const randomizer = (config) => {
+function randomizer (config) {
     console.log(config)
-    if (fileAlreadyExist(config.filePath, config.fileName)) {
-        return readFile(config.filePath, config.fileName);
+    if (fileAlreadyExist(config.method.filePath, config.method.fileName)) {
+        return readFile(config.method.filePath, config.method.fileName);
     } else {
-        return writeToFile(config.filePath, config.fileName, makeRandom(config))
+        return writeToFile(config.method.filePath, config.method.fileName, makeRandom(config.weighting))
     }
 }
 
