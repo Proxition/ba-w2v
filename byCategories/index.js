@@ -63,6 +63,7 @@ const readFile = (filePath, fileName, category) => {
 }
 
 const getArticlesByCategory = async (config) => {
+    console.log("getArticlesByCategory");
     let articleNumbers = [];
     if (fileAlreadyExist(config.filePath, config.fileName)) {
         articleNumbers = readFile(
@@ -74,7 +75,6 @@ const getArticlesByCategory = async (config) => {
     } else {
         if(!config.method) {
             console.error("Can't read config.method.path")
-            console.log(config)
             return articleNumbers;
         }
         try {

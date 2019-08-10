@@ -105,7 +105,7 @@ const init = async () => {
         config.takeStep.w2vModelLoad && config.w2vModel.load.forEach(async options => await w2vModelLoad(options, config.log));
         if(config.takeStep.elastic) {
             config.elastic.forEach(elasticConfig => {
-                elastic({...config, current: elasticConfig})(getArticlesByCategory({...config.mode2, log: config.log}));
+                elastic({...config, current: elasticConfig})();
             })
         }
         

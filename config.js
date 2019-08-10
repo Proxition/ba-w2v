@@ -101,8 +101,8 @@ module.exports = {
         // },
         {
             elasticObj: {
-                index: '',
-                type: ''
+                index: 'test',
+                type: 'first'
             },
             maxSearchResults: 10000,
             method: {
@@ -110,6 +110,11 @@ module.exports = {
                 category: '10',
                 filePath: './test',
                 fileName: 'categories2.json',
+                // type: 'random',
+                // filePath: './test',
+                // fileName: 'randomSample.json',
+                // amount: 10,
+                // max: 1031911,
                 clearedDataFilePath: './BiographyCorpus/Data/fullTextContent.tsv'
             },
             weighting: {

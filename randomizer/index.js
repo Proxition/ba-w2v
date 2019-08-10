@@ -41,7 +41,6 @@ const readFile = (filePath, fileName) => {
 }
 
 function randomizer (config) {
-    console.log(config)
     if (fileAlreadyExist(config.method.filePath, config.method.fileName)) {
         return readFile(config.method.filePath, config.method.fileName);
     } else {

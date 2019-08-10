@@ -1,5 +1,3 @@
-const { ModelLoader } = require('./../ba-w2v-v1/load');
-
 const compromise = require("compromise");
 const natural = require("natural");
 const tokenizer = new natural.WordTokenizer();
@@ -37,9 +35,8 @@ const objectToArray = obj => {
     return array;
 }
 
-const wordCount = (options, doc) => {
+const wordCount = (options, doc, modelLoader) => {
     let words = {};
-    const modelLoader = new ModelLoader(options);
     let entry = changeVerbsToPresentTense(doc).replace(/\./g, ' ');
     entry = entry.replace(/\s\s+/g, ' ');
     entry = removeStopwords(entry);
@@ -66,9 +63,9 @@ const wordCount = (options, doc) => {
     })
 }
 
-const wordCountWrapper = async (options, doc) => {
-    let words = await wordCount(options, doc);
-    return objectToArray(words).sort(compare).slice(0, options.amountToWeight);
+const wordCountWrapper = async (options, doc, modelLoader) => {
+    const words = await wordCount(options, doc, modelLoader);
+    return await objectToArray(words).sort(compare).slice(0, options.amountToWeight);
 }
 
 module.exports = wordCountWrapper;
