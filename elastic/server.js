@@ -1,17 +1,35 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const elasticService = require('./elasticservice');
 
 const app = express();
 app.use(bodyParser.json());
 
 const init = () => {
-    app.listen(process.env.PORT, () => {
-        console.log('Listening on Port', process.env.PORT)
+    app.listen(process.env.PORT || 40040, () => {
+        console.log('Listening on Port', process.env.PORT || 40040)
     })
 }
 
-app.post('/', (req, res) => {
-    console.log(res);
+const query = (word) => {
+    return {
+        "query": {
+            "multi_match" : {
+                "query" : word,
+                "fields" : ["payload.word^3", 'head']
+            }
+        }
+    }
+}
+
+app.post('/', async (req, res) => {
+    console.log(req.body);
+    const currentElasticSearchConnection = elasticService({
+        index: req.body.index || req.body.elastic.index ||  'test2',
+        type: req.body.type || req.body.elastic.type ||'second'
+    })
+    const result = req.body.search && await currentElasticSearchConnection.search(query(req.body.search));
+    res.send(result || []);
 })
 
 

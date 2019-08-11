@@ -1,3 +1,4 @@
+require('dotenv').config({path: './.env'});
 const config = require('./config');
 const fs = require('fs');
 
@@ -5,12 +6,8 @@ const { w2vLoad } = require('./ba-w2v-v1/load');
 const w2vCreate = require('./ba-w2v-v1/create');
 const word2phrase = require('./ba-w2v-v1/word2phrase');
 
-const randomizer = require('./randomizer/index');
-const getArticlesByCategory = require('./byCategories')
-
 const parser = require('./data-preprocessing/parseData');
 const elastic = require('./elastic/dataInit');
-
 
 const parsing = async (options, loggingOptions) => {
     const startDate = new Date();
@@ -108,6 +105,7 @@ const init = async () => {
                 elastic({...config, current: elasticConfig})();
             })
         }
+        config.takeStep.startServer && require('./elastic/index');
         
     } else {
         await parsing(config.parsing, config.log);

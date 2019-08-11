@@ -6,27 +6,6 @@ const fs = require('fs');
 const readline = require("readline");
 const { ModelLoader } = require('./../ba-w2v-v1/load');
 
-// elastic.create({
-//     text: 'some text to test the function',
-//     payload: [{word: "text", value: 1}, {word: "function", value: 0.9}]
-// })
-// elastic.create({
-//     head:'some of the first words to have a search onto the persons name',
-//     text: 'sometimes you need a little bit of confidence to function correctly and write a good text.',
-//     payload: [{word: "text", value: 0.7}, {word: "function", value: 1.9}]
-// })
-const word = "search"
-
-const query = {
-        "query": {
-            "multi_match" : {
-                "query" : word,
-                "fields" : ["payload.word^3", 'head']
-            }
-        }
-}
-
-
 module.exports = function (config) {
     const elastic = elasticService(config.current.elasticObj)
 
@@ -47,18 +26,23 @@ module.exports = function (config) {
         })
     }
 
+    const writeToFile = async (weightedData) => {
+        console.log('saving...')
+        fs.appendFile('./weightedDataSave.json', JSON.stringify(await weightedData), ()=>console.log('...Saving done.'));
+    }
+
     const init = async (weightedData) => {
         let elasticArticle = {
             'head': 'text',
             'text': 'article',
             'payload': []
         }
-        const wData = await waitForAll(weightedData);
-        console.log("result::::", wData);
+        const wData = weightedData || await waitForAll(weightedData);
+        // console.log("result::::", wData);
         //if(wData.length < 1) process.exit(-1);
         wData.forEach((elasticArticle, i) => {
             elastic.create(elasticArticle);
-            console.log(i,". ", elasticArticle.head.splice(0,50));
+            console.log(i,". ", elasticArticle.head);
         })
     }
     
@@ -96,20 +80,22 @@ module.exports = function (config) {
         if(config.current.weighting.mode === 'verbCount') {
             console.log("byVerbCount")
             weightedData = getVerbCountedWeightedData(data);
+            return weightedData;
         } else if(config.current.weighting.mode === 'byFrequency') {
             console.log("byFrequency", weighting.byFrequency)
             const modelLoader = new ModelLoader(config.current.weighting);
-            data.forEach(async (doc) => {
-                weightedData.push(
-                    await createElasticObject(
+            return new Promise((resolve, reject) => {
+                data.forEach(async (doc, i) => {
+                    const newElasticObject = await createElasticObject(
                         await weighting.byFrequency(config.current.weighting, doc, modelLoader), 
                         doc
-                    )
-                );
-                console.log("updated: ",weightedData[weightedData.length-1]);
-            });
+                    );
+                    weightedData.push(newElasticObject);
+                    writeToFile(newElasticObject);
+                    if(i === data.length-1) { resolve(weightedData) }
+                });
+            })            
         }
-        return weightedData;
     }
     
     const getSelectedData = async (articleNumbers) => {
@@ -153,18 +139,20 @@ module.exports = function (config) {
     const weightedData = async () => {
         let result;
         if(config.current.method.type == 'category') {
-            result = getWeightedData(getSelectedData(byCategories({...config.current, log: config.log})))
+            result = await waitForAll(getWeightedData(getSelectedData(byCategories({...config.current, log: config.log}))))
         } else if (config.current.method.type == 'random') {
             result = getWeightedData(getSelectedData(randomizer({...config.current, log: config.log})))
         } else {
             console.log('Unknown method.')
             result = undefined;
         }
+        console.log("RESULT:::", result);
         return result;
     }
     
     
     return async () => {
+        return init(JSON.parse(fs.readFileSync('./weightedDataSave.json')));
         return init(await weightedData());
     }
 }

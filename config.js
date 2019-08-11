@@ -5,7 +5,8 @@ module.exports = {
         w2p: false,
         w2vModelCreate: false,
         w2vModelLoad: false,
-        elastic: true,
+        elastic: false,
+        startServer: true
     },
     log: {
         filePath: './logs',
@@ -101,8 +102,8 @@ module.exports = {
         // },
         {
             elasticObj: {
-                index: 'test',
-                type: 'first'
+                index: 'test2',
+                type: 'second'
             },
             maxSearchResults: 10000,
             method: {
