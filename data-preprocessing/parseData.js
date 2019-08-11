@@ -68,7 +68,6 @@ const parseData = (options) => {
         const failedParsing = "./ParsingFails.txt";
 
         readLine.on("line", async function (line) {
-            line_no++;
             if (!options.skipArticleList.includes(line_no) && line_no > options.continueParsingAtLine) {
                 let lineSplit = line.split("\t"); // the first tab separates info from Corpus
                 if (lineSplit.length === 1) {
@@ -111,6 +110,7 @@ const parseData = (options) => {
                 await writePrepData.write(trimmed + "\n", error => {
                     if (error) console.error(error);
                 });
+                line_no++;
             }
         });
 

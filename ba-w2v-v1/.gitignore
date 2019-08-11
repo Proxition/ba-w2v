@@ -3,3 +3,4 @@ output*
 package-lock.json
 train*
 data2/*.txt
+data/*

@@ -1,4 +1,3 @@
-require('dotenv').config({path: './../.env'});
 const { init } = require('./server');
 const { elasticsearchStatus } = require('./elasticService')({
     index: '_cluster',

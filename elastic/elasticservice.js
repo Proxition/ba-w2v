@@ -1,4 +1,5 @@
 
+const axios = require('axios');
 const elasticsearch = require('elasticsearch');
 const client = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_BASE_URL,
@@ -14,7 +15,8 @@ function makeElasticService(config) {
     deleteById,
     multiSearch,
     elasticsearchStatus,
-    createIndex
+    createIndex,
+    getIndexMapping
   }
 
   function update(body, overwrite) {
@@ -44,7 +46,7 @@ function makeElasticService(config) {
 
     return client.deleteByQuery(elasticQuery)
   }
-  
+
   function deleteById(overwrite) {
     const elasticQuery = Object.assign({}, config, overwrite)
 
@@ -52,53 +54,63 @@ function makeElasticService(config) {
   }
 
   function multiSearch(queries) {
-    if(queries.length > 0) {
-      return client.msearch({body: queries}).then(responses => {
+    if (queries.length > 0) {
+      return client.msearch({ body: queries }).then(responses => {
         let result = [];
-        responses.responses.forEach( response => {
+        responses.responses.forEach(response => {
           response.hits.hits.forEach(hit => {
-              hit._source["_score"] = hit._score
-              result.push( hit._source)
-            })
+            hit._source["_score"] = hit._score
+            result.push(hit._source)
+          })
         })
         return result;
       })
     } else {
-      return new Promise( (resolve) => {resolve([])} );
+      return new Promise((resolve) => { resolve([]) });
     }
   }
 
   function elasticsearchStatus(callback) {
     try {
-        client.ping({
-            requestTimeout: 1000
-        }, function (error) {
-            if (error) {
-                console.error("Couldn't ping elastic")
-                callback(false);
-            } else {
-                console.log("elasticSearch ready.")
-                callback(true);
-            }
-        });
+      client.ping({
+        requestTimeout: 1000
+      }, function (error) {
+        if (error) {
+          console.error("Couldn't ping elastic")
+          callback(false);
+        } else {
+          console.log("elasticSearch ready.")
+          callback(true);
+        }
+      });
     } catch (error) {
-        console.error(error)
-        callback(false)
+      console.error(error)
+      callback(false)
     }
     return;
   }
 
   function createIndex(indexToCreate) {
     return new Promise((resolve, reject) => {
-        axios.head(process.env.ELASTICSEARCH_BASE_URL + indexToCreate).then(() => {
-            resolve("index " + indexToCreate + " is already created")
+      axios.head(process.env.ELASTICSEARCH_BASE_URL + indexToCreate).then(() => {
+        resolve("index " + indexToCreate + " is already created")
+      }).catch(error => {
+        axios.put(process.env.ELASTICSEARCH_BASE_URL + indexToCreate).then(() => {
+          resolve("Index " + indexToCreate + " created")
         }).catch(error => {
-            axios.put(process.env.ELASTICSEARCH_BASE_URL + indexToCreate).then(() => {
-                resolve("Index " + indexToCreate + " created")
-            }).catch(error => {
-                reject(error)
-            })
+          reject(error)
         })
+      })
+    })
+  }
+
+  function getIndexMapping(index) {
+    return new Promise((resolve, reject) => {
+      axios.get(process.env.ELASTICSEARCH_BASE_URL + index + '/_mapping').then((res) => {
+        resolve(res)
+      }).catch(error => {
+        reject(error)
+      })
     })
   }
 }

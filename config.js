@@ -5,16 +5,17 @@ module.exports = {
         w2p: false,
         w2vModelCreate: false,
         w2vModelLoad: false,
-        elastic: false
+        elastic: false,
+        startServer: true
     },
     log: {
         filePath: './logs',
-        fileName: 'log1.log',
+        fileName: 'log2.log',
         enable: true
     },
     parsing: {
-        dataFilePath: './test.txt',
-        parsedFilePath: './parsedText.txt',
+        dataFilePath: './BiographyCorpus/Data/fullTextContent.tsv',
+        parsedFilePath: './parsedText-stemmed.txt',
         continueParsingAtLine : 0,
         stemming: true,
         stemOnlyVerbs: false,
@@ -23,7 +24,7 @@ module.exports = {
         lineCount: 1031911,
         createClearedData: {
             enable: true,
-            filePath: './cleanTest.txt'
+            filePath: './cleanText.txt'
         },
         skipArticleList: [] // Articles that are making trouble and are not biographies
     },
@@ -42,8 +43,21 @@ module.exports = {
     w2vModel: {
         create: [
             {
-                trainingDataPath: './ba-w2v-v1/data/micro.txt',
-                modelFileName: 'test.bin',
+                trainingDataPath: './dataForModel.txt',
+                modelFileName: 'final-skip.bin',
+                modelOptions : {
+                    size: 500,
+                    window: 5,
+                    hs: 1,
+                    threads: 1,
+                    iter: 20,
+                    alpha: 0.25,
+                    binary: 1
+                }
+            },
+            {
+                trainingDataPath: './dataForModel.txt',
+                modelFileName: 'final-cbow.bin',
                 modelOptions : {
                     size: 500,
                     window: 5,
@@ -60,27 +74,58 @@ module.exports = {
                 modelFileName: './ba-w2v-v1/data2/fd_pw2v_m3.bin',
                 output: true,
                 similarityAmount: 10,
-                testOn: ['study', 'write', 'roger_staub', 'move'] // check if model is working
-            },
-            {
-                modelFileName: './test.bin',
-                output: true,
-                similarityAmount: 10,
-                testOn: ['study', 'write', 'roger_staub', 'move'] // check if model is working
+                testOn: ['ridiculous', 'fathom'] // check if model is working
             }
         ]
     },
     elastic: [
+        // {
+        //     elasticObj: {
+        //         index: '',
+        //         type: ''
+        //     },
+        //     maxSearchResults: 10000,
+        //     method: {
+        //         type: 'random',
+        //         filePath: './test',
+        //         fileName: 'randomSample.json',
+        //         amount: 50000,
+        //         max: 1031911
+        //     },
+        //     weighting: {
+        //         mode: 'verbCount',
+        //         modelFileName: './ba-w2v-v1/data2/fd_pw2v_m3.bin',
+        //         output: true,
+        //         similarityAmount: 10,
+        //         amountToWeight: 20
+        //     }
+        // },
         {
             elasticObj: {
-                index: '',
-                type: ''
+                index: 'test2',
+                type: 'second'
             },
             maxSearchResults: 10000,
             method: {
-
+                type: 'category',
+                category: '10',
+                filePath: './test',
+                fileName: 'categories2.json',
+                // type: 'random',
+                // filePath: './test',
+                // fileName: 'randomSample.json',
+                // amount: 10,
+                // max: 1031911,
+                clearedDataFilePath: './BiographyCorpus/Data/fullTextContent.tsv'
+            },
+            weighting: {
+                mode: 'byFrequency',
+                modelFileName: './final-cbow.bin',
+                output: true,
+                similarityAmount: 10,
+                amountToWeight: 20
             }
         }
     ]
-
 }
+

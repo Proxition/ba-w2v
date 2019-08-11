@@ -5,6 +5,7 @@ class ModelLoader {
     constructor(options) {
         this.options = options;
         this.w2vModel;
+
         this.isReady = new Promise((resolve, reject) => {
             w2v.loadModel( this.options.modelFileName, (error, model)=>{
                 if(error) reject(error);

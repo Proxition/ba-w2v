@@ -14,3 +14,6 @@ dataForModel*.txt
 failed.txt
 logs/*
 *.tsv
+*.bin
+node_modules
+test/*
