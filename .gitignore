@@ -16,3 +16,4 @@ logs/*
 *.tsv
 *.bin
 node_modules
+test/*
