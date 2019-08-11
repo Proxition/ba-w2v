@@ -22,7 +22,7 @@ const query = (word) => {
     }
 }
 
-app.post('/', async (req, res) => {
+app.post('/search', async (req, res) => {
     console.log(req.body);
     const currentElasticSearchConnection = elasticService({
         index: req.body.index || req.body.elastic.index ||  'test2',
@@ -32,7 +32,15 @@ app.post('/', async (req, res) => {
     res.send(result || []);
 })
 
-
+app.post('/query', async (req, res) => {
+    console.log(req.body);
+    const currentElasticSearchConnection = elasticService({
+        index: req.body.index || req.body.elastic.index ||  'test2',
+        type: req.body.type || req.body.elastic.type ||'second'
+    })
+    const result = req.body.query && await currentElasticSearchConnection.search(req.body.query);
+    res.send(result || []);
+})
 
 module.exports = {
     init
