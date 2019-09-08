@@ -36,15 +36,15 @@ The config is the heart to control the processing of each single step.
 This object is controlling which step is about to be run via index.js.
 The whole process is split into following steps:
 
-1. parse : the parsing of the initial data from wikipedia
-2. w2p   : word2phrase is preprocessing the parsed data
-3. w2vModelCreate : creates the word2vector model over the parsed and preprocessed data
-4. w2vModelLoad : loads the word2vec model to test if its working
-5. createElasticData : assembles the data to create the final elastic entries 
-6. initElasticData : adds the entries into the elasticsearch (from here on, you need to run the docker container)
-7. startServer : starts the server you can post onto with a new search or an compleat query
+1. **parse** : the parsing of the initial data from wikipedia
+2. **w2p**   : word2phrase is preprocessing the parsed data
+3. **w2vModelCreate** : creates the word2vector model over the parsed and preprocessed data
+4. **w2vModelLoad** : loads the word2vec model to test if its working
+5. **createElasticData** : assembles the data to create the final elastic entries 
+6. **initElasticData** : adds the entries into the elasticsearch (from here on, you need to run the docker container)
+7. **startServer** : starts the server you can post onto with a new search or an compleat query
 
-example: 
+_example:_ 
 ```
 takeStep: {
         parse: false,
@@ -61,7 +61,7 @@ takeStep: {
 
 In the first steps logging is possible if enabled via the config. You can set the file path and file name for the log.
 
-example:
+_example:_ 
 
 ```
     log: {
@@ -79,20 +79,20 @@ The english wikipedia biography data is provided by __Robin Jegan__ in a form li
 
 The word2vec program by Tomas Mikolov does not work well with special signs especially if they follow each other. To lessen problems in creating the model, some options are given.
 
-+ dataFilePath : the path towards the provided data
-+ parsedFilePath : path to save the parsed data
-+ continueParsingAtLine : if the parsing should stop at a point due to an error you can continue by setting a line number
-+ stemming : enable word stemming
-+ stemOnlyVerbs : enable to stem only verbs identified by a dictionary library
-+ toLowerCase : if enabled, sets everything to lower case
-+ failCounter : sets the start of the fail counter, you might want to set it, if you had to set the continueParsingAtLine
-+ lineCount : is used to calculate the percentage of parsing
-+ createClearedData : it is advised to enable it for later steps to have a file of all articles without those of error
-...+ enable : enables the creation of a cleared data file
-...+ filePath: provides the path where to save the cleared data
-+ skipArticleList: an array of numbers of lines to skip due to known errors or wrong entries 
++ **dataFilePath** : the path towards the provided data
++ **parsedFilePath** : path to save the parsed data
++ **continueParsingAtLine** : if the parsing should stop at a point due to an error you can continue by setting a line number
++ **stemming** : enable word stemming
++ **stemOnlyVerbs** : enable to stem only verbs identified by a dictionary library
++ **toLowerCase** : if enabled, sets everything to lower case
++ **failCounter** : sets the start of the fail counter, you might want to set it, if you had to set the continueParsingAtLine
++ **lineCount** : is used to calculate the percentage of parsing
++ **createClearedData** : it is advised to enable it for later steps to have a file of all articles without those of error
+...+ **enable** : enables the creation of a cleared data file
+...+ **filePath** : provides the path where to save the cleared data
++ **skipArticleList** : an array of numbers of lines to skip due to known errors or wrong entries 
 
-example:
+_example:_ 
 ```
     parsing: {
         dataFilePath: './BiographyCorpus/Data/fullTextContent.tsv',
@@ -115,13 +115,13 @@ example:
 
 Word2Phrase does not have to be run, and can be skipped if not wanted.
 
-+ trainingDataPath : path to the parsed data to be trained on
-+ modelFileName : path to the to be created model
-+ modelOptions
-...+ minCount : the minimum amount of a word occurrence in the data
-...+ threshold : 
++ **trainingDataPath** : path to the parsed data to be trained on
++ **modelFileName** : path to the to be created model
++ **modelOptions**
+...+ **minCount** : the minimum amount of a word occurrence in the data
+...+ **threshold** : 
 
-example: 
+_example:_  
 ```
     w2p: {
         create: [
