@@ -1,13 +1,12 @@
 module.exports = {
-    stepByStep: true,
     takeStep: {
         parse: false,
         w2p: false,
         w2vModelCreate: false,
         w2vModelLoad: false,
         createElasticData: false,
-        initElasticData: true,
-        startServer: true,
+        initElasticData: false,
+        startServer: false,
     },
     log: {
         filePath: './logs',
@@ -27,7 +26,7 @@ module.exports = {
             enable: true,
             filePath: './cleanText.txt'
         },
-        skipArticleList: [] // Articles that are making trouble and are not biographies
+        skipArticleList: [] // Articles that are making trouble and/or are not biographies
     },
     w2p: {
         create: [
@@ -108,15 +107,15 @@ module.exports = {
             },
             maxSearchResults: 10000,
             method: {
-                // type: 'category',
-                // category: '10',
-                // filePath: './test',
-                // fileName: 'categories2.json',
-                type: 'random',
+                type: 'category',
+                category: '10',
                 filePath: './test',
-                fileName: 'randomSample.json',
-                amount: 10,
-                max: 1031911,
+                fileName: 'categories2.json',
+                // type: 'random',
+                // filePath: './test',
+                // fileName: 'randomSample.json',
+                // amount: 10,
+                // max: 1031911,
                 clearedDataFilePath: './BiographyCorpus/Data/fullTextContent.tsv'
             },
             weighting: {
