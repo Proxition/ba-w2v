@@ -31,18 +31,18 @@ You have to run each step one by one, but can do that with changing the active s
 
 The config is the heart to control the processing of each single step. 
 
-#### takeStep ####
+### takeStep ###
 
 This object is controlling which step is about to be run via index.js.
 The whole process is split into following steps:
 
-+ parse : the parsing of the initial data from wikipedia
-+ w2p   : word2phrase is preprocessing the parsed data
-+ w2vModelCreate : creates the word2vector model over the parsed and preprocessed data
-+ w2vModelLoad : loads the word2vec model to test if its working
-+ createElasticData : assembles the data to create the final elastic entries 
-+ initElasticData : adds the entries into the elasticsearch (from here on, you need to run the docker container)
-+ startServer : starts the server you can post onto with a new search or an compleat query
+1. parse : the parsing of the initial data from wikipedia
+2. w2p   : word2phrase is preprocessing the parsed data
+3. w2vModelCreate : creates the word2vector model over the parsed and preprocessed data
+4. w2vModelLoad : loads the word2vec model to test if its working
+5. createElasticData : assembles the data to create the final elastic entries 
+6. initElasticData : adds the entries into the elasticsearch (from here on, you need to run the docker container)
+7. startServer : starts the server you can post onto with a new search or an compleat query
 
 example: 
 ```
@@ -57,7 +57,7 @@ takeStep: {
     }
 ```
 
-#### log ####
+### log ###
 
 In the first steps logging is possible if enabled via the config. You can set the file path and file name for the log.
 
@@ -71,7 +71,7 @@ example:
     }
 ```
 
-#### parsing (step 1) ####
+### parsing (step 1) ###
 
 The english wikipedia biography data is provided by __Robin Jegan__ in a form like: 
 
@@ -111,7 +111,7 @@ example:
     }
 ```
 
-#### w2p (step2) ####
+### w2p (step2) ###
 
 Word2Phrase does not have to be run, and can be skipped if not wanted.
 
@@ -137,7 +137,7 @@ example:
     }
 ```
 
-#### w2vModel (step3) ####
+### w2vModel (step3) ###
 
 
 
