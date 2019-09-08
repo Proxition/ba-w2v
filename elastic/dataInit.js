@@ -26,23 +26,26 @@ module.exports = function (config) {
         })
     }
 
-    const writeToFile = async (weightedData) => {
-        console.log('saving...')
-        fs.appendFile('./weightedDataSave.json', JSON.stringify(await weightedData), ()=>console.log('...Saving done.'));
+    const writeToFile = (weightedData) => {
+        return new Promise( async (resolve,reject) => {
+            if(!fs.existsSync(config.current.weighting.weightedDataSave))
+            fs.writeFileSync(config.current.weighting.weightedDataSave, '[');
+        fs.appendFile(
+            config.current.weighting.weightedDataSave, 
+            typeof weightedData === 'object' 
+                ? JSON.stringify(await weightedData)
+                : weightedData, 
+            ()=>{
+                console.log('...Saving done.');
+                resolve(weightedData);
+            });
+        })
     }
 
     const init = async (weightedData) => {
-        let elasticArticle = {
-            'head': 'text',
-            'text': 'article',
-            'payload': []
-        }
         const wData = weightedData || await waitForAll(weightedData);
-        // console.log("result::::", wData);
-        //if(wData.length < 1) process.exit(-1);
         wData.forEach((elasticArticle, i) => {
             elastic.create(elasticArticle);
-            console.log(i,". ", elasticArticle.head);
         })
     }
     
@@ -82,17 +85,22 @@ module.exports = function (config) {
             weightedData = getVerbCountedWeightedData(data);
             return weightedData;
         } else if(config.current.weighting.mode === 'byFrequency') {
-            console.log("byFrequency", weighting.byFrequency)
+            console.log("byFrequency")
             const modelLoader = new ModelLoader(config.current.weighting);
             return new Promise((resolve, reject) => {
                 data.forEach(async (doc, i) => {
-                    const newElasticObject = await createElasticObject(
+                    const newElasticObject = createElasticObject(
                         await weighting.byFrequency(config.current.weighting, doc, modelLoader), 
                         doc
                     );
                     weightedData.push(newElasticObject);
-                    writeToFile(newElasticObject);
-                    if(i === data.length-1) { resolve(weightedData) }
+                    writeToFile(newElasticObject).then(() => {
+                        if(i === data.length-1) { 
+                            resolve(weightedData);
+                        } else { 
+                            writeToFile(',')
+                        };
+                    });
                 });
             })            
         }
@@ -141,18 +149,29 @@ module.exports = function (config) {
         if(config.current.method.type == 'category') {
             result = await waitForAll(getWeightedData(getSelectedData(byCategories({...config.current, log: config.log}))))
         } else if (config.current.method.type == 'random') {
-            result = getWeightedData(getSelectedData(randomizer({...config.current, log: config.log})))
+            result = await waitForAll(getWeightedData(getSelectedData(randomizer({...config.current, log: config.log}))))
         } else {
             console.log('Unknown method.')
             result = undefined;
         }
+        await writeToFile(']'); // close the json 
         console.log("RESULT:::", result);
         return result;
     }
     
     
     return async () => {
-        return init(JSON.parse(fs.readFileSync('./weightedDataSave.json')));
-        return init(await weightedData());
+        if(fs.existsSync(config.current.weighting.weightedDataSave)) 
+            try {
+                return  init(JSON.parse(fs.readFileSync(config.current.weighting.weightedDataSave)));
+            } catch ( error ) {
+                console.log("Error in init");
+            }
+        try {
+            return await weightedData();
+        } catch ( error ) {
+            console.log("Some Error in waiting for wieghtedData")
+        }
+       
     }
 }

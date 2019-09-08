@@ -42,13 +42,15 @@ const wordCount = (options, doc, modelLoader) => {
     entry = removeStopwords(entry);
     return new Promise(async (resolve, reject) => {
         for(word of entry.split(' ')) {
-            if(!words[word]){
-                words[word] = 1;
-            } else {
-                words[word] += 1;
+            if(!word.match(/^[0-9]+$/)) {
+                if(!words[word]){
+                    words[word] = 1;
+                } else {
+                    words[word] += 1;
+                }
             }
         }
-        const wordsCopy = Object.assign({},words);
+        const wordsCopy = Object.assign({}, words);
         for(word in wordsCopy) {
             let similars = await modelLoader.getSimilar(word, options.similarityAmount);
             similars && similars.forEach(similar => {
@@ -57,7 +59,7 @@ const wordCount = (options, doc, modelLoader) => {
                 } else {
                     words[similar.word] = words[similar.word] * (1+similar.dist) + similar.dist;
                 }
-            })  
+            })
         }
         resolve(words);
     })

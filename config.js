@@ -5,8 +5,8 @@ module.exports = {
         w2p: false,
         w2vModelCreate: false,
         w2vModelLoad: false,
-        elastic: false,
-        startServer: true
+        createElasticData: true,
+        startServer: false,
     },
     log: {
         filePath: './logs',
@@ -121,6 +121,7 @@ module.exports = {
             weighting: {
                 mode: 'byFrequency',
                 modelFileName: './final-cbow.bin',
+                weightedDataSave: './weightedDataSave3.json',
                 output: true,
                 similarityAmount: 10,
                 amountToWeight: 20
