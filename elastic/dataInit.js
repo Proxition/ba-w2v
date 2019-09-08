@@ -45,6 +45,7 @@ module.exports = function (config) {
     const init = async (weightedData) => {
         const wData = weightedData || await waitForAll(weightedData);
         wData.forEach((elasticArticle, i) => {
+            console.log(i);
             elastic.create(elasticArticle);
         })
     }
@@ -108,8 +109,8 @@ module.exports = function (config) {
     
     const getSelectedData = async (articleNumbers) => {
         console.log("getSelectedData");
-        articleNumbers = (await articleNumbers).sort((a,b) => a - b); // TODO randomize output anpassen to promise
-        console.log("getSelectedData after sort", await articleNumbers);
+        articleNumbers = [...(await articleNumbers)].sort((a,b) => a - b);
+        console.log("getSelectedData after sort", (await articleNumbers).toString());
 
         return new Promise((resolve, reject) => {
             let readLine = readline.createInterface({
@@ -161,17 +162,18 @@ module.exports = function (config) {
     
     
     return async () => {
-        if(fs.existsSync(config.current.weighting.weightedDataSave)) 
+        if(fs.existsSync(config.current.weighting.weightedDataSave)){
             try {
-                return  init(JSON.parse(fs.readFileSync(config.current.weighting.weightedDataSave)));
+                return init(JSON.parse(fs.readFileSync(config.current.weighting.weightedDataSave)));
             } catch ( error ) {
-                console.log("Error in init");
+                console.log("Error in loading the JSON, you might need to fix some missing ','.");
             }
-        try {
-            return await weightedData();
-        } catch ( error ) {
-            console.log("Some Error in waiting for wieghtedData")
+        } else {
+            try {
+                return await weightedData();
+            } catch ( error ) {
+                console.log("Some Error in waiting for wieghtedData")
+            }    
         }
-       
     }
 }

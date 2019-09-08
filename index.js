@@ -105,6 +105,11 @@ const init = async () => {
                 elastic({...config, current: elasticConfig})();
             })
         }
+        if(config.takeStep.initElasticData) {
+            config.elastic.forEach(elasticConfig => {
+                elastic({...config, current: elasticConfig})();
+            })
+        }
         config.takeStep.startServer && require('./elastic/index') ;
         
     } else {

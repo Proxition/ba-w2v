@@ -5,8 +5,9 @@ module.exports = {
         w2p: false,
         w2vModelCreate: false,
         w2vModelLoad: false,
-        createElasticData: true,
-        startServer: false,
+        createElasticData: false,
+        initElasticData: true,
+        startServer: true,
     },
     log: {
         filePath: './logs',
@@ -102,26 +103,26 @@ module.exports = {
         // },
         {
             elasticObj: {
-                index: 'test2',
-                type: 'second'
+                index: 'test4',
+                type: 'fourth'
             },
             maxSearchResults: 10000,
             method: {
-                type: 'category',
-                category: '10',
-                filePath: './test',
-                fileName: 'categories2.json',
-                // type: 'random',
+                // type: 'category',
+                // category: '10',
                 // filePath: './test',
-                // fileName: 'randomSample.json',
-                // amount: 10,
-                // max: 1031911,
+                // fileName: 'categories2.json',
+                type: 'random',
+                filePath: './test',
+                fileName: 'randomSample.json',
+                amount: 10,
+                max: 1031911,
                 clearedDataFilePath: './BiographyCorpus/Data/fullTextContent.tsv'
             },
             weighting: {
                 mode: 'byFrequency',
                 modelFileName: './final-cbow.bin',
-                weightedDataSave: './weightedDataSave3.json',
+                weightedDataSave: './weightedDataSave1.json',
                 output: true,
                 similarityAmount: 10,
                 amountToWeight: 20
