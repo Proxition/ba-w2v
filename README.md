@@ -88,8 +88,8 @@ The word2vec program by Tomas Mikolov does not work well with special signs espe
 + **failCounter** : sets the start of the fail counter, you might want to set it, if you had to set the continueParsingAtLine
 + **lineCount** : is used to calculate the percentage of parsing
 + **createClearedData** : it is advised to enable it for later steps to have a file of all articles without those of error
-..* **enable** : enables the creation of a cleared data file
-..* **filePath** : provides the path where to save the cleared data
+⋅⋅* **enable** : enables the creation of a cleared data file
+⋅⋅* **filePath** : provides the path where to save the cleared data
 + **skipArticleList** : an array of numbers of lines to skip due to known errors or wrong entries 
 
 _example:_ 
@@ -118,8 +118,8 @@ Word2Phrase does not have to be run, and can be skipped if not wanted.
 + **trainingDataPath** : path to the parsed data to be trained on
 + **modelFileName** : path to the to be created model
 + **modelOptions**
-..* **minCount** : the minimum amount of a word occurrence in the data
-..* **threshold** : 
+⋅⋅* **minCount** : the minimum amount of a word occurrence in the data
+⋅⋅* **threshold** : 
 
 _example:_  
 ```
