@@ -139,7 +139,18 @@ _example:_
 
 ### w2vModel (step3) ###
 
+This runs the word2vec program by Tomas Mikolov 
 
++ **trainingDataPath** : path to the parsed data to be trained on
++ **modelFileName** : path to the to be created model
++ **modelOptions**
+  * **size** : 
+  * **window** : 
+  * **hs** : 
+  * **threads** :
+  * **iter** : 
+  * **alpha** : 0.25 = skip, 0.05 = CBOW
+  * **binary** : 
 
 ```javascript
     w2vModel: {
