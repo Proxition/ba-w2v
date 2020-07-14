@@ -220,16 +220,16 @@ All three steps are using the same config parameters.
 Even though an array is provided to be used, it is advisable to only use a single elastic config object here, due to the amout of RAM this process is using.
 
 + **elasticObj** : the basic elastic search config
- * **index** : the index under which elastic search is saving the entry
- * **type** : the type under which elastic search is saving the entry
+  * **index** : the index under which elastic search is saving the entry
+  * **type** : the type under which elastic search is saving the entry
 + **maxSearchResults** : sets the maximum amount a search request can response with (max 10.000)
 + **method** : two selection methods are available, _random_ and _category_
 + **weighting** : the custom weighting based on the word2vec model results used on the verbs of the entry
- * **mode** : there are two weighting modes you can select from 'byFrequency' and 'verbCount'
- * **modelFileName** : the path to the word2vec model
- * **output** : enable detailed output
- * **similarityAmount** : the amount of most similar words to be looked at
- * **amountToWeight** : the amount of verbs that shall be weighted
+  * **mode** : there are two weighting modes you can select from 'byFrequency' and 'verbCount'
+  * **modelFileName** : the path to the word2vec model
+  * **output** : enable detailed output
+  * **similarityAmount** : the amount of most similar words to be looked at
+  * **amountToWeight** : the amount of verbs that shall be weighted
 
 #### Methods ####
 
