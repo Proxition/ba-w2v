@@ -25,8 +25,8 @@ const query = (word) => {
 app.post('/search', async (req, res) => {
     console.log(req.body);
     const currentElasticSearchConnection = elasticService({
-        index: req.body.index || req.body.elastic.index ||  'test2',
-        type: req.body.type || req.body.elastic.type ||'second'
+        index: req.body.index || req.body.elastic && req.body.elastic.index || 'test2',
+        type: req.body.type || req.body.elastic && req.body.elastic.type || 'second'
     })
     const result = req.body.search && await currentElasticSearchConnection.search(query(req.body.search));
     res.send(result || []);

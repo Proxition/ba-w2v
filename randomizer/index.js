@@ -41,11 +41,13 @@ const readFile = (filePath, fileName) => {
 }
 
 function randomizer (config) {
-    if (fileAlreadyExist(config.method.filePath, config.method.fileName)) {
-        return readFile(config.method.filePath, config.method.fileName);
-    } else {
-        return writeToFile(config.method.filePath, config.method.fileName, makeRandom(config.weighting))
-    }
+    return new Promise((resolve) => {
+        if (fileAlreadyExist(config.method.filePath, config.method.fileName)) {
+            resolve(readFile(config.method.filePath, config.method.fileName));
+        } else {
+            resolve(writeToFile(config.method.filePath, config.method.fileName, makeRandom(config.weighting)))
+        }
+    })
 }
 
 

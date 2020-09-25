@@ -17,3 +17,6 @@ logs/*
 *.bin
 node_modules
 test/*
+
+dataForModel.zip
+/BiographyCorpus/*.zip

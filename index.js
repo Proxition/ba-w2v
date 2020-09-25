@@ -95,24 +95,20 @@ const extendFile = (filePath,filename, extension) => {
 // ------------ Init
 
 const init = async () => {
-    if (config.stepByStep) {
-        config.takeStep.parse && await parsing(config.parsing, config.log);
-        config.takeStep.w2p && config.w2p.create.forEach(async options => await w2p(options, config.log));
-        config.takeStep.w2vModelCreate && config.w2vModel.create.forEach(async options => await w2vModelCreate(options, config.log));
-        config.takeStep.w2vModelLoad && config.w2vModel.load.forEach(async options => await w2vModelLoad(options, config.log));
-        if(config.takeStep.elastic) {
-            config.elastic.forEach(elasticConfig => {
-                elastic({...config, current: elasticConfig})();
-            })
-        }
-        config.takeStep.startServer && require('./elastic/index');
-        
-    } else {
-        await parsing(config.parsing, config.log);
-        config.w2p.create.forEach(async options => await w2p(options, config.log));
-        config.w2vModel.create.forEach(async options => await w2vModelCreate(options, config.log));
-        config.w2vModel.load.forEach(async options => await w2vModelLoad(options, config.log));
-        // todo elastic
+    config.takeStep.parse && await parsing(config.parsing, config.log);
+    config.takeStep.w2p && config.w2p.create.forEach(async options => await w2p(options, config.log));
+    config.takeStep.w2vModelCreate && config.w2vModel.create.forEach(async options => await w2vModelCreate(options, config.log));
+    config.takeStep.w2vModelLoad && config.w2vModel.load.forEach(async options => await w2vModelLoad(options, config.log));
+    if(config.takeStep.createElasticData) {
+        config.elastic.forEach(elasticConfig => {
+            elastic({...config, current: elasticConfig})();
+        })
     }
+    if(config.takeStep.initElasticData) {
+        config.elastic.forEach(elasticConfig => {
+            elastic({...config, current: elasticConfig})();
+        })
+    }
+    config.takeStep.startServer && require('./elastic/index') ;
 }
 init();

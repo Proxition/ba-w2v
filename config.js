@@ -1,12 +1,12 @@
 module.exports = {
-    stepByStep: true,
     takeStep: {
         parse: false,
         w2p: false,
         w2vModelCreate: false,
         w2vModelLoad: false,
-        elastic: false,
-        startServer: true
+        createElasticData: false,
+        initElasticData: false,
+        startServer: false,
     },
     log: {
         filePath: './logs',
@@ -26,7 +26,7 @@ module.exports = {
             enable: true,
             filePath: './cleanText.txt'
         },
-        skipArticleList: [] // Articles that are making trouble and are not biographies
+        skipArticleList: [] // Articles that are making trouble and/or are not biographies
     },
     w2p: {
         create: [
@@ -102,8 +102,8 @@ module.exports = {
         // },
         {
             elasticObj: {
-                index: 'test2',
-                type: 'second'
+                index: 'test4',
+                type: 'fourth'
             },
             maxSearchResults: 10000,
             method: {
@@ -121,6 +121,7 @@ module.exports = {
             weighting: {
                 mode: 'byFrequency',
                 modelFileName: './final-cbow.bin',
+                weightedDataSave: './weightedDataSave1.json',
                 output: true,
                 similarityAmount: 10,
                 amountToWeight: 20
