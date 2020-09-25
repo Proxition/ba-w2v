@@ -146,9 +146,9 @@ This runs the word2vec program by Tomas Mikolov
 + **trainingDataPath** : path to the parsed data to be trained on
 + **modelFileName** : path to the to be created model
 + **modelOptions**
-  * **size** : 
-  * **window** : 
-  * **hs** : 
+  * **size** : size of word vector / vector depth
+  * **window** : max skip length between words
+  * **hs** : using hierarchical softmax
   * **threads** : how many threads are to be used
   * **iter** : the amount of iterations
   * **alpha** : 0.25 = skip, 0.05 = CBOW
