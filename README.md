@@ -42,7 +42,7 @@ The whole process is split into following steps:
 4. **w2vModelLoad** : loads the word2vec model to test if its working
 5. **createElasticData** : assembles the data to create the final elastic entries 
 6. **initElasticData** : adds the entries into the elasticsearch (from here on, you need to run the docker container)
-7. **startServer** : starts the server you can post onto with a new search or an compleat query
+7. **startServer** : starts the server you can post onto with a new search or an complete query
 
 _example:_ 
 ```javascript
@@ -78,6 +78,8 @@ The english wikipedia biography data is provided by __Robin Jegan__ in a form li
 \[categories\] First passage == Passage Name == passage * repeating == References == references == External links == links etc. 
 
 The word2vec program by Tomas Mikolov does not work well with special signs especially if they follow each other. To lessen problems in creating the model, some options are given.
+
+This step also shows you the amount of entries this dataset has. You will need this information for later steps.
 
 + **dataFilePath** : the path towards the provided data
 + **parsedFilePath** : path to save the parsed data
@@ -137,10 +139,22 @@ _example:_
     }
 ```
 
-### w2vModel (step3) ###
+### w2vModelCreate (step3) ###
 
+This runs the word2vec program by Tomas Mikolov 
 
++ **trainingDataPath** : path to the parsed data to be trained on
++ **modelFileName** : path to the to be created model
++ **modelOptions**
+  * **size** : 
+  * **window** : 
+  * **hs** : 
+  * **threads** : how many threads are to be used
+  * **iter** : the amount of iterations
+  * **alpha** : 0.25 = skip, 0.05 = CBOW
+  * **binary** : if it shall be saved as binary (0: false, 1: true)
 
+_example:_ 
 ```javascript
     w2vModel: {
         create: [
@@ -171,20 +185,83 @@ _example:_
                 }
             }
         ],
+    },
+ ```
+### w2vModelLoad (step5) ###
+
+This is part of the w2vModel (as well as w2vModelCreate (step3) ).
+
+To test the model if it does work, you can use this to check directly after creating the model if the model can be loaded and read.
+This step can be skipped, due to not having impact on final results, but it is advicable to not skip due to the time it takes to process each step.
+
++ **modelFileName** : the path to the to be tested model
++ **output** : enables detailed output
++ **similarityAmount** : the amount of most similar words to be looked at
++ **testOn** : sample words, to test the model with
+
+_example:_ 
+ ```javascript
+     w2vModel: {
         load: [
             {
                 modelFileName: './ba-w2v-v1/data2/fd_pw2v_m3.bin',
                 output: true,
                 similarityAmount: 10,
-                testOn: ['ridiculous', 'fathom'] // check if model is working
+                testOn: ['ridiculous', 'fathom']
             }
         ]
-    },
+     },
+ ```
+ 
+### createElasticData (step5) & initElasticData (step6) & startServer (step7) ###
+
+All three steps are using the same config parameters.
+
+Even though an array is provided to be used, it is advisable to only use a single elastic config object here, due to the amout of RAM this process is using.
+
++ **elasticObj** : the basic elastic search config
+  * **index** : the index under which elastic search is saving the entry
+  * **type** : the type under which elastic search is saving the entry
++ **maxSearchResults** : sets the maximum amount a search request can response with (max 10.000)
++ **method** : two selection methods are available, _random_ and _category_
++ **weighting** : the custom weighting based on the word2vec model results used on the verbs of the entry
+  * **mode** : there are two weighting modes you can select from 'byFrequency' and 'verbCount'
+  * **modelFileName** : the path to the word2vec model
+  * **output** : enable detailed output
+  * **similarityAmount** : the amount of most similar words to be looked at
+  * **amountToWeight** : the amount of verbs that shall be weighted
+
+#### Methods ####
+
+Those methods are created to speed up the analyzing part. Otherwise the whole weighting process has to be done for each entry of the dataset and be saved into elasticsearch.
+
+##### Random #####
+
+This method is selecting randomly entries of the dataset to add those into elasticsearch.
+
++ **type** : 'random' 
++ **filePath** : path where the _fileName_ is to be saved
++ **fileName** : name of the file for the random selected entries
++ **amount** : the amount of randomly selected entries
++ **max** : the max amount - this value is provided by the first step and has to be manuel written down here
+
+##### Category #####
+
+This method is selecting entries by a provided category
+
++ **type** : 'category' 
++ **category** : You can find the categories in the unprocessed dataset
++ **filePath** : path where the _fileName_ is to be saved
++ **fileName** : name of the file for by category selected entries
++ **clearedDataFilePath** : file to the 'cleaned' version of the unprocessed dataset without error entries
+
+ _example:_ 
+ ```
     elastic: [
         // {
         //     elasticObj: {
-        //         index: '',
-        //         type: ''
+        //         index: 'test3',
+        //         type: 'third'
         //     },
         //     maxSearchResults: 10000,
         //     method: {
@@ -210,14 +287,9 @@ _example:_
             maxSearchResults: 10000,
             method: {
                 type: 'category',
-                category: '10',
+                category: 'Professors',
                 filePath: './test',
                 fileName: 'categories2.json',
-                // type: 'random',
-                // filePath: './test',
-                // fileName: 'randomSample.json',
-                // amount: 10,
-                // max: 1031911,
                 clearedDataFilePath: './BiographyCorpus/Data/fullTextContent.tsv'
             },
             weighting: {
