@@ -153,6 +153,7 @@ This runs the word2vec program by Tomas Mikolov
   * **iter** : the amount of iterations
   * **alpha** : learning rate, 0.25 for skip-gram, 0.05 for CBOW
   * **binary** : if it shall be saved as binary (0: false, 1: true)
+  * further options can be found https://www.npmjs.com/package/word2vec in the original package
 
 _example:_ 
 ```javascript
