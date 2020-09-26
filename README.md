@@ -151,7 +151,7 @@ This runs the word2vec program by Tomas Mikolov
   * **hs** : using hierarchical softmax
   * **threads** : how many threads are to be used
   * **iter** : the amount of iterations
-  * **alpha** : 0.25 = skip, 0.05 = CBOW
+  * **alpha** : learning rate, 0.25 for skip-gram, 0.05 for CBOW
   * **binary** : if it shall be saved as binary (0: false, 1: true)
 
 _example:_ 
